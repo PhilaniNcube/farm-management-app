@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Farm Management App
 
-## Getting Started
+A comprehensive farm management system built with Next.js, Convex, and Clerk.
 
-First, run the development server:
+## Features
+
+- **User Authentication**: Secure sign-up/sign-in with Clerk
+- **Organization Management**: Create organizations that automatically generate farms
+- **Farm Management**: Track farms, crops, livestock, and more
+- **Real-time Updates**: Powered by Convex for real-time data synchronization
+
+## Setup Instructions
+
+### 1. Install Dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Set up Convex
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx convex dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This will guide you through setting up your Convex project.
 
-## Learn More
+### 3. Set up Clerk
 
-To learn more about Next.js, take a look at the following resources:
+1. Create a Clerk account at https://clerk.com
+2. Create a new application
+3. Copy your publishable key and secret key to your `.env.local` file
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Set up Webhooks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Go to Clerk Dashboard > Webhooks
+2. Create a new webhook endpoint: `https://your-domain.com/api/webhooks/clerk`
+3. Select events: `organization.created`, `organizationMembership.created`
+4. Copy the webhook secret and add it to your `.env.local` file
 
-## Deploy on Vercel
+### 5. Environment Variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a `.env.local` file with the following variables:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+NEXT_PUBLIC_CONVEX_URL=your_convex_url
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+CLERK_WEBHOOK_SECRET=your_clerk_webhook_secret
+```
+
+## How Organization-to-Farm Creation Works
+
+1. **User Signs Up**: User creates an account with Clerk
+2. **User Created in Convex**: Our system automatically creates a corresponding user record in Convex
+3. **Organization Created**: When a user creates an organization in Clerk, it triggers a webhook
+4. **Farm Created**: The webhook handler automatically creates a farm in Convex linked to the organization
+5. **User Association**: The farm is associated with the user who created the organization
+
+## Development
+
+```bash
+# Start the development server
+pnpm dev
+
+# Start Convex development server (in another terminal)
+npx convex dev
+```
+
+## Architecture
+
+- **Frontend**: Next.js with App Router
+- **Database**: Convex (real-time, serverless)
+- **Authentication**: Clerk
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI
+
+## Key Files
+
+- `convex/schema.ts`: Database schema definitions
+- `convex/users.ts`: User-related database operations
+- `convex/farms.ts`: Farm-related database operations
+- `src/app/api/webhooks/clerk/route.ts`: Clerk webhook handler
+- `src/components/FarmManagement.tsx`: Farm management interface
+- `src/hooks/useCreateUser.ts`: User creation hook
+- `src/hooks/useCreateFarmFromOrganization.ts`: Organization-to-farm creation hook
