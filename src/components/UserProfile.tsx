@@ -32,6 +32,9 @@ export default function UserProfile() {
         <p>
           <strong>Farms:</strong> {convexUser?.farmIds.length || 0} farms
         </p>
+        <p>
+          <strong>Farms:</strong> {convexUser?.clerkId}
+        </p>
       </div>
     </div>
   );

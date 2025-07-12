@@ -44,13 +44,55 @@ export const getCurrentUser = query({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
+
+    console.log("getCurrentUser called with identity:", identity);
+
     if (!identity) {
+      console.log("No identity found");
       return null;
     }
 
-    return await ctx.db
+    // Look up the user by Clerk ID (subject is the user ID from Clerk)
+    const user = await ctx.db
       .query("users")
       .filter((q) => q.eq(q.field("clerkId"), identity.subject))
       .first();
+
+    console.log("User found in database:", user);
+
+    return user;
+  },
+});
+
+export const debugAuth = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    console.log("=== DEBUG AUTH ===");
+    console.log("Identity:", identity);
+    console.log("Identity subject (Clerk ID):", identity?.subject);
+    console.log("Identity email:", identity?.email);
+
+    if (identity) {
+      // Check if user exists in database
+      const userByClerkId = await ctx.db
+        .query("users")
+        .filter((q) => q.eq(q.field("clerkId"), identity.subject))
+        .first();
+
+      console.log("User found by Clerk ID:", userByClerkId);
+
+      // Check all users in database
+      const allUsers = await ctx.db.query("users").collect();
+      console.log("All users in database:", allUsers);
+    }
+
+    return {
+      identity,
+      hasIdentity: !!identity,
+      clerkId: identity?.subject,
+      email: identity?.email,
+    };
   },
 });

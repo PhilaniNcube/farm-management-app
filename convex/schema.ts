@@ -7,7 +7,7 @@ export default defineSchema({
     email: v.string(),
     clerkId: v.string(),
     farmIds: v.array(v.id("farms")),
-  }).index("by_clerk_id", ["clerkId"]),
+  }),
   farms: defineTable({
     name: v.string(),
     location: v.string(),
@@ -25,6 +25,7 @@ export default defineSchema({
     harvestDate: v.number(),
     areaPlanted: v.number(),
     status: v.string(),
+    organizationId: v.string(),
   }),
   animalAssets: defineTable({
     farmId: v.id("farms"),
@@ -36,6 +37,7 @@ export default defineSchema({
     acquisitionDate: v.number(),
     healthStatus: v.string(),
     purpose: v.string(),
+    organizationId: v.string(),
   }),
   transactions: defineTable({
     farmId: v.id("farms"),
@@ -45,6 +47,7 @@ export default defineSchema({
     vendor: v.string(),
     description: v.string(),
     receiptStorageId: v.optional(v.union(v.string(), v.null())),
+    organizationId: v.string(),
   }),
   transactionItems: defineTable({
     transactionId: v.id("transactions"),
@@ -55,6 +58,7 @@ export default defineSchema({
     relatedId: v.optional(
       v.union(v.id("crops"), v.id("animalAssets"), v.null())
     ),
+    organizationId: v.string(),
   }),
   tasks: defineTable({
     farmId: v.id("farms"),
@@ -66,12 +70,14 @@ export default defineSchema({
     relatedId: v.optional(
       v.union(v.id("crops"), v.id("animalAssets"), v.null())
     ),
+    organizationId: v.string(),
   }),
   labor: defineTable({
     farmId: v.id("farms"),
     name: v.string(),
     contactInfo: v.string(),
     role: v.string(),
+    organizationId: v.string(),
   }),
   payroll: defineTable({
     farmId: v.id("farms"),
@@ -80,5 +86,6 @@ export default defineSchema({
     payPeriodStart: v.number(),
     payPeriodEnd: v.number(),
     hoursWorked: v.optional(v.number()),
+    organizationId: v.string(),
   }),
 });

@@ -11,6 +11,7 @@ import {
 import { Menu, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import { SignedIn, SignedOut, useClerk } from "@clerk/nextjs";
+import { Authenticated, Unauthenticated } from "convex/react";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,7 +21,7 @@ export default function Header() {
 
   const AuthButtons = () => (
     <>
-      <SignedIn>
+      <Authenticated>
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
             <User className="h-4 w-4" />
@@ -35,8 +36,8 @@ export default function Header() {
             <span className="hidden sm:inline">Logout</span>
           </Button>
         </div>
-      </SignedIn>
-      <SignedOut>
+      </Authenticated>
+      <Unauthenticated>
         <div className="flex items-center gap-2">
           <Link href="/sign-in" className="flex items-center gap-2">
             <Button variant="ghost" className="justify-start">
@@ -47,7 +48,7 @@ export default function Header() {
             <Button className="justify-start">Sign Up</Button>
           </Link>
         </div>
-      </SignedOut>
+      </Unauthenticated>
     </>
   );
 

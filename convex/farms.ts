@@ -112,7 +112,7 @@ export const getFarmsByUser = query({
 
     const user = await ctx.db
       .query("users")
-      .filter((q) => q.eq(q.field("clerkId"), identity.subject))
+      .filter((q) => q.eq(q.field("email"), identity.email))
       .first();
 
     if (!user) {
@@ -150,5 +150,32 @@ export const getFarmById = query({
   args: { farmId: v.id("farms") },
   handler: async (ctx, args) => {
     return await ctx.db.get(args.farmId);
+  },
+});
+
+export const getMyFarms = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      return [];
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .filter((q) => q.eq(q.field("email"), identity.email))
+      .first();
+
+    if (!user) {
+      return [];
+    }
+
+    const farms = await Promise.all(
+      user.farmIds.map(async (farmId) => {
+        return await ctx.db.get(farmId);
+      })
+    );
+
+    return farms;
   },
 });
