@@ -12,12 +12,13 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const NewCropModal = () => {
   const farms = useQuery(api.farms.getMyFarms);
 
   if (!farms) {
-    return <div>Loading...</div>;
+    return <Skeleton className="w-[150px] animate-pulse h-5" />;
   }
 
   return (

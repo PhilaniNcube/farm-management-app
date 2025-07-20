@@ -5,7 +5,7 @@ import FarmManagement from "@/components/FarmManagement";
 import { api } from "../../../../convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
 import FarmsOverview from "@/components/dashboard-components/farms-overview";
-import NewCropModal from "./[org-id]/crops/_components/new-crop-modal";
+import NewCropModal from "./[orgId]/crops/_components/new-crop-modal";
 
 const DashboardPage = async () => {
   return (
