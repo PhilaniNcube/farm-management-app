@@ -1,7 +1,7 @@
 import React from "react";
 
 const LivestockPage = async (props: {
-  params: { orgId: string; livestockId: string };
+  params: Promise<{ orgId: string; livestockId: string }>;
 }) => {
   const { orgId, livestockId } = await props.params;
 
