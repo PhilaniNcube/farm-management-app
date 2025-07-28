@@ -1,7 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useQuery } from "convex/react";
+import { api } from "../../../../../convex/_generated/api";
+import { useOrganization } from "@clerk/nextjs";
+import { format } from "date-fns";
 
 export function RecentActivity() {
+  const organization = useOrganization();
+
+  const recentTasks = useQuery(api.tasks.getPendingTasks, {
+    organizationId: organization.organization?.id || "",
+  });
+
   const activities = [
     {
       user: "John Smith",
@@ -59,32 +69,24 @@ export function RecentActivity() {
 
   return (
     <div className="space-y-4">
-      {activities.map((activity, index) => (
+      {recentTasks?.map((activity, index) => (
         <div key={index} className="flex items-center space-x-4">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={`/placeholder.svg?height=32&width=32`} />
-            <AvatarFallback>
-              {activity.user
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
-            </AvatarFallback>
-          </Avatar>
           <div className="flex-1 space-y-1">
             <div className="flex items-center space-x-2">
-              <p className="text-sm font-medium">{activity.user}</p>
+              <p className="text-sm font-medium">{activity.title}</p>
               <Badge
                 variant="secondary"
-                className={`text-xs ${getActivityColor(activity.type)}`}
+                className={`text-xs capitalize ${getActivityColor(activity.status)}`}
               >
-                {activity.type}
+                {activity.status}
               </Badge>
             </div>
             <p className="text-sm text-muted-foreground">
-              {activity.action}{" "}
-              <span className="font-medium">{activity.target}</span>
+              {activity.description}{" "}
             </p>
-            <p className="text-xs text-muted-foreground">{activity.time}</p>
+            <p className="text-xs text-muted-foreground">
+              <strong>Due Date:</strong> {format(activity.dueDate, "PPP")}
+            </p>
           </div>
         </div>
       ))}
