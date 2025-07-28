@@ -25,7 +25,7 @@ const DashboardClient = () => {
 
   return (
     <div>
-      <Tabs>
+      <Tabs defaultValue="overview" className="space-y-6">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="crops">Crops</TabsTrigger>
