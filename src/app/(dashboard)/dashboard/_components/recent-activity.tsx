@@ -12,44 +12,6 @@ export function RecentActivity() {
     organizationId: organization.organization?.id || "",
   });
 
-  const activities = [
-    {
-      user: "John Smith",
-      action: "completed harvest",
-      target: "Corn Field A",
-      time: "2 hours ago",
-      type: "harvest",
-    },
-    {
-      user: "Sarah Johnson",
-      action: "added new livestock",
-      target: "5 Holstein Cows",
-      time: "4 hours ago",
-      type: "livestock",
-    },
-    {
-      user: "Mike Wilson",
-      action: "updated task",
-      target: "Irrigation System Check",
-      time: "6 hours ago",
-      type: "task",
-    },
-    {
-      user: "Emily Davis",
-      action: "recorded transaction",
-      target: "$2,500 Equipment Purchase",
-      time: "1 day ago",
-      type: "transaction",
-    },
-    {
-      user: "Tom Brown",
-      action: "planted crops",
-      target: "Wheat Field B",
-      time: "2 days ago",
-      type: "planting",
-    },
-  ];
-
   const getActivityColor = (type: string) => {
     switch (type) {
       case "harvest":
