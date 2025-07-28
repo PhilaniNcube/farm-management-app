@@ -63,7 +63,8 @@ interface CreateCropFormProps {
 
 const cropStatuses = [
   { value: "planned", label: "Planned" },
-  { value: "planted", label: "Planted" },
+  { value: "seedbed", label: "Seedbed" },
+  { value: "planting", label: "Planting" },
   { value: "growing", label: "Growing" },
   { value: "harvested", label: "Harvested" },
   { value: "failed", label: "Failed" },
@@ -86,7 +87,7 @@ export function CreateCropForm({ farms }: CreateCropFormProps) {
       name: "",
       variety: "",
       areaPlanted: 0,
-      status: "",
+      status: "planned",
       organizationId: organization?.id || "",
     },
   });
@@ -98,6 +99,13 @@ export function CreateCropForm({ farms }: CreateCropFormProps) {
         farmId: data.farmId as Id<"farms">,
         plantingDate: data.plantingDate.getTime(),
         harvestDate: data.harvestDate.getTime(),
+        status: data.status as
+          | "seedbed"
+          | "planting"
+          | "growing"
+          | "harvested"
+          | "failed"
+          | "planned",
       });
       form.reset();
     } catch (error) {
@@ -260,7 +268,7 @@ export function CreateCropForm({ farms }: CreateCropFormProps) {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                   </FormControl>

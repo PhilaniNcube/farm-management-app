@@ -117,7 +117,6 @@ export const updateTaskDueDate = mutation({
 
 export const createTask = mutation({
   args: {
-    farmId: v.id("farms"),
     title: v.string(),
     description: v.string(),
     dueDate: v.number(),
@@ -141,7 +140,6 @@ export const createTask = mutation({
 
     // Create the task
     const taskId = await ctx.db.insert("tasks", {
-      farmId: args.farmId,
       title: args.title,
       description: args.description,
       dueDate: args.dueDate,

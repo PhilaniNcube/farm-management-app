@@ -15,6 +15,7 @@ import type {
 } from "convex/server";
 import type * as crops from "../crops.js";
 import type * as farms from "../farms.js";
+import type * as labor from "../labor.js";
 import type * as livestock from "../livestock.js";
 import type * as metrics from "../metrics.js";
 import type * as tasks from "../tasks.js";
@@ -31,6 +32,7 @@ import type * as users from "../users.js";
 declare const fullApi: ApiFromModules<{
   crops: typeof crops;
   farms: typeof farms;
+  labor: typeof labor;
   livestock: typeof livestock;
   metrics: typeof metrics;
   tasks: typeof tasks;

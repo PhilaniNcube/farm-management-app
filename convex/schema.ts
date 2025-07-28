@@ -68,7 +68,6 @@ export default defineSchema({
     organizationId: v.string(),
   }),
   tasks: defineTable({
-    farmId: v.id("farms"),
     title: v.string(),
     description: v.string(),
     dueDate: v.number(),
@@ -85,14 +84,12 @@ export default defineSchema({
     organizationId: v.string(),
   }),
   labor: defineTable({
-    farmId: v.id("farms"),
     name: v.string(),
     contactInfo: v.string(),
     role: v.string(),
     organizationId: v.string(),
   }),
   payroll: defineTable({
-    farmId: v.id("farms"),
     laborId: v.id("labor"),
     transactionId: v.id("transactions"),
     payPeriodStart: v.number(),
