@@ -77,7 +77,6 @@ export default defineSchema({
       v.literal("completed"),
       v.literal("cancelled")
     ),
-    assignedTo: v.id("labor"),
     relatedId: v.optional(
       v.union(v.id("crops"), v.id("animalAssets"), v.null())
     ),

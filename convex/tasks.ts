@@ -126,7 +126,6 @@ export const createTask = mutation({
       v.literal("completed"),
       v.literal("cancelled")
     ),
-    assignedTo: v.id("labor"),
     relatedId: v.optional(
       v.union(v.id("crops"), v.id("animalAssets"), v.null())
     ),
@@ -144,7 +143,6 @@ export const createTask = mutation({
       description: args.description,
       dueDate: args.dueDate,
       status: args.status,
-      assignedTo: args.assignedTo,
       relatedId: args.relatedId,
       organizationId: args.organizationId,
     });

@@ -62,17 +62,11 @@ const taskSchema = z.object({
   status: z.enum(["pending", "in_progress", "completed", "cancelled"], {
     required_error: "Please select a status",
   }),
-  assignedTo: z.string().min(1, "Please assign the task to someone"),
-
   relatedId: z.string().optional(),
   relatedType: z.enum(["crops", "livestock", "none"]).optional(),
 });
 
 type TaskFormValues = z.infer<typeof taskSchema>;
-
-interface NewTaskModalProps {
-  organizationId?: string;
-}
 
 export function NewTaskModal() {
   const [open, setOpen] = useState(false);
@@ -105,8 +99,6 @@ export function NewTaskModal() {
       description: "",
       dueDate: new Date(),
       status: "pending",
-      assignedTo: "",
-
       relatedId: "",
       relatedType: "none",
     },
@@ -123,8 +115,6 @@ export function NewTaskModal() {
         description: values.description,
         dueDate: values.dueDate.getTime(),
         status: values.status,
-        assignedTo: values.assignedTo as any,
-
         relatedId: values.relatedId ? (values.relatedId as any) : undefined,
         organizationId: organization?.id || "",
       });
@@ -262,37 +252,6 @@ export function NewTaskModal() {
                 )}
               />
             </div>
-
-            <FormField
-              control={form.control}
-              name="assignedTo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Assign To</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a worker" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {labor?.map((worker: any) => (
-                        <SelectItem key={worker._id} value={worker._id}>
-                          {worker.name} - {worker.role}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    Choose who will be responsible for completing this task
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <FormField
               control={form.control}
