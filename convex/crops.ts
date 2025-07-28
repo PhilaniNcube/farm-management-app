@@ -9,7 +9,14 @@ export const createCrop = mutation({
     plantingDate: v.number(),
     harvestDate: v.number(),
     areaPlanted: v.number(),
-    status: v.string(),
+    status: v.union(
+      v.literal("seedbed"),
+      v.literal("planting"),
+      v.literal("growing"),
+      v.literal("harvested"),
+      v.literal("failed"),
+      v.literal("planned")
+    ),
     organizationId: v.string(),
   },
   handler: async (ctx, args) => {
@@ -72,7 +79,16 @@ export const updateCrop = mutation({
     plantingDate: v.optional(v.number()),
     harvestDate: v.optional(v.number()),
     areaPlanted: v.optional(v.number()),
-    status: v.optional(v.string()),
+    status: v.optional(
+      v.union(
+        v.literal("seedbed"),
+        v.literal("planting"),
+        v.literal("growing"),
+        v.literal("harvested"),
+        v.literal("failed"),
+        v.literal("planned")
+      )
+    ),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();

@@ -16,8 +16,13 @@ import { TasksOverview } from "./_components/tasks-overview";
 import { QuickActions } from "./_components/quick-actions";
 import { CropsStatus } from "./_components/crops-status";
 import { MilkIcon } from "lucide-react";
+import { useClerk } from "@clerk/nextjs";
 
 const DashboardClient = () => {
+  const clerkUser = useClerk();
+
+  const organizationId = clerkUser.organization?.id;
+
   return (
     <div>
       <Tabs>
@@ -28,7 +33,10 @@ const DashboardClient = () => {
           <TabsTrigger value="finances">Finances</TabsTrigger>
         </TabsList>
         <TabsContent value="overview">
-          <MetricsCards />
+          {clerkUser?.organization?.id ? (
+            <MetricsCards organizationId={clerkUser.organization.id} />
+          ) : null}
+
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 my-6">
             <Card className="col-span-4">
               <CardHeader>

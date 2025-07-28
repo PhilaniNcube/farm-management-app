@@ -24,7 +24,14 @@ export default defineSchema({
     plantingDate: v.number(),
     harvestDate: v.number(),
     areaPlanted: v.number(),
-    status: v.string(),
+    status: v.union(
+      v.literal("seedbed"),
+      v.literal("planting"),
+      v.literal("growing"),
+      v.literal("harvested"),
+      v.literal("failed"),
+      v.literal("planned")
+    ),
     organizationId: v.string(),
   }),
   animalAssets: defineTable({
@@ -65,7 +72,12 @@ export default defineSchema({
     title: v.string(),
     description: v.string(),
     dueDate: v.number(),
-    status: v.string(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("in_progress"),
+      v.literal("completed"),
+      v.literal("cancelled")
+    ),
     assignedTo: v.id("labor"),
     relatedId: v.optional(
       v.union(v.id("crops"), v.id("animalAssets"), v.null())
