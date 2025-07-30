@@ -12,6 +12,7 @@ import {
   IconUserCheck,
   IconMapPin,
   IconTractor,
+  IconCurrencyDollar,
 } from "@tabler/icons-react";
 
 import {
@@ -120,6 +121,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       title: "Transactions",
       url: `/dashboard/${organization?.id}/transactions`,
       icon: IconCoin,
+    },
+    {
+      title: "Budgets",
+      url: `/dashboard/${organization?.id}/budgets`,
+      icon: IconCurrencyDollar,
     },
     {
       title: "Labour",

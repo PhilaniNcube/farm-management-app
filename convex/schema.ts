@@ -96,4 +96,30 @@ export default defineSchema({
     hoursWorked: v.optional(v.number()),
     organizationId: v.string(),
   }),
+  budgets: defineTable({
+    organizationId: v.string(),
+    name: v.string(),
+    description: v.string(),
+    amount: v.number(),
+    dateRequired: v.number(),
+    category: v.union(
+      v.literal("operational"),
+      v.literal("capital"),
+      v.literal("research"),
+      v.literal("marketing"),
+      v.literal("other")
+    ),
+    relatedId: v.optional(
+      v.union(v.id("crops"), v.id("animalAssets"), v.id("farms"), v.null())
+    ),
+    isRecurring: v.optional(v.boolean()),
+    recurrenceInterval: v.optional(
+      v.union(
+        v.literal("weekly"),
+        v.literal("monthly"),
+        v.literal("quarterly"),
+        v.literal("annually")
+      )
+    ),
+  }),
 });
